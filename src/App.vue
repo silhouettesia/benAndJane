@@ -18,17 +18,21 @@ export default {
 html, body {
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 body, p, span, input, textarea, table {
-	/*font-family: "Times New Roman", "Microsoft YaHei";*/
   font-family: "Microsoft YaHei";
+  font-family: "Times New Roman", "Microsoft YaHei";
+  font-family: Georgia, "Times New Roman", "Microsoft YaHei";
 	font-size: 12px;
-	letter-spacing: 1px;
-	color: #000;
+	letter-spacing: .1em;
+	color: #333;
+}
+ul, ol {
+  list-style: none;
 }
 a {
-	color: #000;
+	color: #333;
 	text-decoration: none;
 }
 a:hover {
@@ -37,6 +41,7 @@ a:hover {
 img {
 	max-width: 100%;
 	/*width: 100%;*/
+  border: 0;
 }
 table {
   width: 100%;
@@ -153,10 +158,10 @@ option {
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px white inset;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset;
 }
 input[type=text]:focus, input[type=password]:focus, textarea:focus {
-  -webkit-box-shadow: 0 0 0 1000px white inset;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset;
 }
 .right {
 	float: right;
@@ -171,10 +176,13 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
   text-decoration: underline;
 }
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity .3s;
 }
 .fade-enter, .fade-leave-active {
   opacity: 0;
+}
+.router-link-active {
+  color: #aaa;
 }
 .gradient-bgcolor {
   background: #d8d8d8;
@@ -182,5 +190,29 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
   background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#d8d8d8));
   background: -moz-linear-gradient(top, #fff, #d8d8d8);
   background: -o-linear-gradient(top, #fff, #d8d8d8);
+  /*background: -webkit-linear-gradient(45deg,#2349a8,#2349a8 50%,white 50%,white 55%,#2349a8 55%,#2349a8 60%,white 60%,white);
+  background: -moz-linear-gradient(45deg,#2349a8,#2349a8 50%,white 50%,white 55%,#2349a8 55%,#2349a8 60%,white 60%,white);
+  background: -o-linear-gradient(45deg,#2349a8,#2345a8 50%,white 50%,white 55%,#2345a9 55%,#2345a8 60%,white 60%,white);
+  background: linear-gradient(45deg,#2340a8,#2349a8 50%,white 50%,white 55%,#2349a8 55%,#2349a8 60%,white 60%,white);*/
+}
+.span-split:before {
+  content: "·";
+  padding: 10px;
+}
+.icon {
+  display: inline-block;
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  line-height: 1;
+}
+
+.fixed-bg {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
 }
 </style>
