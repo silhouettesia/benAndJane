@@ -105,18 +105,22 @@ export default {
       // this.autoChange();
     },
     activeChange(id) {
-      // console.log('activechange',id,this.activeIdx);
+      console.log('activechange',id,this.activeIdx);
       this.activeIdx = id;
     },
     autoChange() {
-      this.intervalId = setInterval(()=>{
-        this.activeChange((this.activeIdx + 1) % this.list.length)
-      },5000);
-      console.log('setInterval',this.intervalId);
+      if (this.list.length) {
+        this.intervalId = setInterval(()=>{
+          this.activeChange((this.activeIdx + 1) % this.list.length)
+        },5000);
+        console.log('setInterval',this.intervalId);
+      }
     },
     stopChange() {
-      clearInterval(this.intervalId);
-      console.log('clearInterval',this.intervalId);
+      if (this.list.length) {
+        clearInterval(this.intervalId);
+        console.log('clearInterval',this.intervalId);
+      }
     }
   },
   watch: {
@@ -144,6 +148,10 @@ export default {
     // this.year = this.$route.params['year'];
     this.getHitorybookList(this.$route.params['year']);
     this.basicURL = '/static/upload/historybook/'+this.$route.params['year']+'/';
+  },
+  beforeRouteLeave (to, from, next) {
+    this.stopChange();
+    next();
   }
 }
 </script>
