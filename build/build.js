@@ -2,6 +2,7 @@ require('./check-versions')()
 
 process.env.NODE_ENV = 'production'
 
+var exec = require('child_process').exec;
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')
@@ -31,5 +32,22 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
       '  Tip: built files are meant to be served over an HTTP server.\n' +
       '  Opening index.html over file:// won\'t work.\n'
     ))
+    console.log('start scp ...');
+    let scpList = [
+      'scp ./dist/index.html ubuntu@123.206.115.14:/home/ubuntu/benAndjane/benjane/templates/',
+      'scp ./dist/static/css/* ubuntu@123.206.115.14:/home/ubuntu/benAndjane/benjane/static/css/',
+      'scp ./dist/static/js/* ubuntu@123.206.115.14:/home/ubuntu/benAndjane/benjane/static/js/'
+    ];
+    scpList.forEach((cmd)=>{
+      exec(cmd, function(err,stdout,stderr) {
+        if (err) {
+          console.log('cmd fail: ',cmd);
+          console.log(stderr);
+        } else {
+          console.log('> ',cmd);
+          console.log(stdout);
+        }
+      })
+    })
   })
 })

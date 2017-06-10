@@ -190,6 +190,8 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
   background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#d8d8d8));
   background: -moz-linear-gradient(top, #fff, #d8d8d8);
   background: -o-linear-gradient(top, #fff, #d8d8d8);
+  /*filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffff, endColorstr=#d8d8d8);*/
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#d8d8d8');
   /*background: -webkit-linear-gradient(45deg,#2349a8,#2349a8 50%,white 50%,white 55%,#2349a8 55%,#2349a8 60%,white 60%,white);
   background: -moz-linear-gradient(45deg,#2349a8,#2349a8 50%,white 50%,white 55%,#2349a8 55%,#2349a8 60%,white 60%,white);
   background: -o-linear-gradient(45deg,#2349a8,#2345a8 50%,white 50%,white 55%,#2345a9 55%,#2345a8 60%,white 60%,white);

@@ -1,11 +1,19 @@
 <template>
-<div sign-wrap>
+<div class="sign-wrap">
   <div class="sign-mask" @click="$emit('signEvent',false)"></div>
   <div class="sign-box">
     <div class="sign-content">
       <div class="sign-input">
-        <input type="text" placeholder="email" v-model.trim="account" @keyup="checkEmail">
-        <input type="password" placeholder="password" v-model.trim="password">
+        <template v-if="noPlaceholder">
+          <span class="placeholder">email:</span>
+          <input type="text" placeholder="email" v-model.trim="account" @keyup="checkEmail" style="width:auto;">
+          <span class="placeholder">password:</span>
+          <input type="password" placeholder="password" v-model.trim="password" style="width:auto;">
+        </template>
+        <template v-else>
+          <input type="text" placeholder="email" v-model.trim="account" @keyup="checkEmail">
+          <input type="password" placeholder="password" v-model.trim="password">
+        </template>
       </div>
       <div class="sign-button">
         <button @click="login">login</button>
@@ -18,6 +26,11 @@
 </template>
 
 <style scoped>
+.sign-wrap {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 3;
+}
 .sign-mask {
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -48,10 +61,21 @@
   text-align: center;
   z-index: 5;
 }
-.sign-input {}
+.sign-input {
+  position: relative;
+}
 .sign-button {}
 .sign-message {
   color: #ddd;
+}
+.placeholder {
+  display: inline-block;
+  width: 90px;
+  font-size: 16px;
+  font-family: 'Microsoft Yahei';
+  color: #fff;
+  text-align: left;
+  vertical-align: text-top;
 }
 input {
   margin-bottom: 1em;
@@ -150,10 +174,14 @@ export default {
         if (this.checkEmail()) {
           axios.post('/userAction','action='+action+'&account='+this.account+'&password='+this.password)
             .then((res)=>{
-              this.$store.commit('login', {'token':res.data.token, 'userid':res.data.userid});
-              this.account = '';
-              this.password = '';
-              this.$emit('signEvent',false);
+              if (res.data.success) {
+                this.$store.commit('login', {'token':res.data.token, 'userid':res.data.userid});
+                this.account = '';
+                this.password = '';
+                this.$emit('signEvent',false);
+              } else {
+                this.message = res.data.error;
+              }
             })
             .catch((err)=>{
               console.log(err);
@@ -186,6 +214,12 @@ export default {
       account: '',
       password: '',
       message: '',
+      noPlaceholder: false,
+    }
+  },
+  beforeMount() {
+    if (!("placeholder" in document.createElement("input"))) {
+      this.noPlaceholder = true;
     }
   },
 }

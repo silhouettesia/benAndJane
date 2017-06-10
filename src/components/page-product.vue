@@ -24,7 +24,7 @@
 
 <style scoped>
 .product {
-  margin: 10px;
+  /*margin: 10px;*/
   overflow: hidden;
 }
 .product-image {
@@ -112,16 +112,25 @@ export default {
   },
   methods: {
     getProductInfo(){
-      let url = '/getData?data=productInfo&id='+this.$route.params['prod'];
-      if (this.isLogin) {
-        /* todo: http header */
-          url += '&uesrid='+this.userid;
-      }
-      axios.get(url)
+      axios.get('/getData?data=productInfo&id='+this.$route.params['id'])
         .then((res)=>{
-          console.log('product',res.data)
-          this.product = res.data;
-          this.mainImage = '/static/upload/product/'+this.product.img[0];
+          if (res.data) {
+            console.log('product',res.data)
+            this.product = res.data;
+            this.mainImage = '/static/upload/product/'+this.product.img[0];
+            if (this.isLogin) {
+              axios.post('/userAction','action=addHistory&userid='+this.userid+'&prodid='+this.$route.params['id'])
+              .then((res)=>{
+                console.log(res);
+              })
+              .catch((err)=>{
+                console.log(err);
+              });
+            }
+          } else {
+            console.log(res.data);
+            this.$emit('messageEvent', 'error', 'opps, something wrong');
+          }
         })
         .catch((err)=>{
           console.log(err);
@@ -138,8 +147,28 @@ export default {
       }
       this.mainImage = '/static/upload/product/'+this.product.img[0];
     },
-    addHistory(prodId, userId) {},
-    addFavor(prodId, userId) {}
+    addFavor(prodId, userId) {
+      axios.post('/userAction','action=addFavor&userid='+this.userid+'&prodid='+this.$route.params['id'])
+        .then((res)=>{
+          if (res.data.success) {
+            let msg = this.language == 'en'
+              ? 'added to wish list'
+              : '已加入收藏夹';
+            this.$emit('messageEvent', 'success', msg);
+          } else {
+            let msg = this.language == 'en'
+              ? 'failed to add to wish list: '
+              : '添加收藏夹失败: ';
+            this.$emit('messageEvent', 'error', msg+res.data.error);
+          }
+        })
+        .catch((err)=>{
+          let msg = this.language == 'en'
+            ? 'failed to add to wish list: '
+            : '添加收藏夹失败: ';
+          this.$emit('messageEvent', 'error', msg+err);
+        })
+    }
   },
   computed: {
     ...mapState({

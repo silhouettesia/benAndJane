@@ -1,13 +1,11 @@
 <template>
   <div class="main">
     <div class="fixed-bg gradient-bgcolor"></div>
-    <transition name="fade">
-      <message
-        v-show="message.show"
-        :type="message.type"
-        :content="message.content"
-      ></message>
-    </transition>
+    <message
+      :show="message.show"
+      :type="message.type"
+      :content="message.content"
+    ></message>
     <transition name="fade">
       <sign v-show="signShow" @signEvent="signHandler"></sign>
     </transition>
@@ -64,8 +62,8 @@ export default {
       clearTimeout(this.timeoutId);
       this.timeoutId = setTimeout(()=>{
         this.message.show = false;
-        this.message.type = '';
-        this.message.content = '';
+        // this.message.type = '';
+        // this.message.content = '';
       },duration*1000);
     },
     signHandler(flag) {

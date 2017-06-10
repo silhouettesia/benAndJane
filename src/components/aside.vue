@@ -7,32 +7,32 @@
       <li>
         <span class="link-like" @click="subActive('jewellery')">jewellery</span>
         <ul class="sub-ul" v-show="isJewelleryActive">
-          <li><router-link to="/jewellery/necklaces">necklaces</router-link><img src="/static/upload/illustration/illustration.jpg" class="jewellery-illustration"></li>
+          <!-- <li><router-link to="/jewellery/necklaces">necklaces</router-link><img src="/static/upload/illustration/illustration.jpg" class="jewellery-illustration"></li>
           <li><router-link to="/jewellery/rings">rings</router-link><img src="/static/upload/illustration/illustration.jpg" class="jewellery-illustration"></li>
           <li><router-link to="/jewellery/earrings">earrings</router-link><img src="/static/upload/illustration/illustration.jpg" class="jewellery-illustration"></li>
           <li><router-link to="/jewellery/bracelets">bracelets</router-link><img src="/static/upload/illustration/illustration.jpg" class="jewellery-illustration"></li>
-          <li><router-link to="/jewellery/accessories">accessories</router-link><img src="/static/upload/illustration/illustration.jpg" class="jewellery-illustration"></li>
+          <li><router-link to="/jewellery/accessories">accessories</router-link><img src="/static/upload/illustration/illustration.jpg" class="jewellery-illustration"></li> -->
           <li v-for="item in jewelleryCategory">
-            <router-link :to="'/jewellery/'+item.url">item.name</router-link>
-            <img :src="'/static/upload/illustration/'+item.img" class="jewellery-illustration">
+            <router-link :to="'/jewellery/'+item.url">{{item.name}}</router-link>
+            <img :src="'/static/upload/illustration/'+item.img" class="jewellery-illustration" v-if="item.img">
           </li>
         </ul>
       </li>
       <li>
         <span class="link-like" @click="subActive('series')">series</span>
         <ul class="sub-ul" v-show="isSeriesActive">
-          <li><router-link to="/series/less">less is more</router-link></li>
-          <li><router-link to="/series/vintage">vintage</router-link></li>
-          <li v-for="item in seriesCategory"><router-link :to="'/series/'+item.url">item.name</router-link></li>
+          <!-- <li><router-link to="/series/less">less is more</router-link></li>
+          <li><router-link to="/series/vintage">vintage</router-link></li> -->
+          <li v-for="item in seriesCategory"><router-link :to="'/series/'+item.url">{{item.name}}</router-link></li>
         </ul>
       </li>
       <li>
         <span class="link-like" @click="subActive('historybook')">history book</span>
         <ul class="sub-ul" v-show="isHistorybookActive">
-          <li><router-link to="/historybook/2017">2017</router-link></li>
+          <!-- <li><router-link to="/historybook/2017">2017</router-link></li>
           <li><router-link to="/historybook/2016">2016</router-link></li>
-          <li><router-link to="/historybook/2015">2015</router-link></li>
-          <li v-for="item in historybookCategory"><router-link :to="'/historybook/'+item.url">item.name</router-link></li>
+          <li><router-link to="/historybook/2015">2015</router-link></li> -->
+          <li v-for="item in historybookCategory"><router-link :to="'/historybook/'+item">{{item}}</router-link></li>
         </ul>
       </li>
       <li>
@@ -91,6 +91,11 @@
 <script>
 export default {
   name: 'aside',
+  watch: {
+    $route() {
+      this.subActive(this.$route.name);
+    }
+  },
   methods: {
     subActive(item) {
       this.isJewelleryActive = item == 'jewellery' ? true : false;
@@ -103,6 +108,7 @@ export default {
           this.jewelleryCategory = res.data.jewelleryCategory;
           this.seriesCategory = res.data.seriesCategory;
           this.historybookCategory = res.data.historybookCategory;
+          this.historybookCategory.sort((a,b)=>b-a);
         })
         .catch((err)=>{
           console.log(err);

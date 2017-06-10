@@ -54,6 +54,10 @@
   padding: 0 2px;
   cursor: pointer;
 }
+.footer .container .contact img {
+  width: 100%;
+  height: 100%;
+}
 .footer .container .contact li .toggle-image2 {
   display: none;
 }

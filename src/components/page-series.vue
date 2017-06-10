@@ -7,7 +7,7 @@
           <img v-bind:src="basicURL+item.img[0]" v-bind:data-src2="item.img.length>1?(basicURL+item.img[1]):''" v-on:mouseover="imageToggle" v-on:mouseout="imageToggle">
         </div>
         <div class="product-detail">
-          <p>{{item.name}}</p>
+          <p>{{item.name[language]}}</p>
           <p>&yen {{item.price}}</p>
         </div>
       </router-link>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'series',
   methods: {
@@ -46,6 +47,12 @@ export default {
       this.getProductList();
     }
   },
+  computed: {
+    ...mapState({
+      isLogin: state => Boolean(state.userid),
+      language: state => state.language,
+    }),
+  },
   beforeMount() {
     this.getProductList();
   },
@@ -53,24 +60,24 @@ export default {
     return {
       basicURL: '/static/upload/product/',
       productList: [
-        {
-          "id": 1,
-          "name": "name",
-          "price": "1",
-          "img": ['necklace.jpg','necklace1.jpg']
-        },
-        {
-          "id": 2,
-          "name": "name",
-          "price": "1",
-          "img": ['necklace3.jpg']
-        },
-        {
-          "id": 3,
-          "name": "name",
-          "price": "1",
-          "img": ['necklace4.jpg']
-        },
+        // {
+        //   "id": 1,
+        //   "name": "name",
+        //   "price": "1",
+        //   "img": ['necklace.jpg','necklace1.jpg']
+        // },
+        // {
+        //   "id": 2,
+        //   "name": "name",
+        //   "price": "1",
+        //   "img": ['necklace3.jpg']
+        // },
+        // {
+        //   "id": 3,
+        //   "name": "name",
+        //   "price": "1",
+        //   "img": ['necklace4.jpg']
+        // },
       ]
     }
   }

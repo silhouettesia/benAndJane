@@ -86,7 +86,7 @@
 .color-filter {
   position: relative;
   display: inline-block;
-  padding-bottom: 4px;
+  padding-bottom: 10px;
 }
 .color-list {
   display: none;

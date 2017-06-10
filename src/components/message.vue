@@ -1,16 +1,18 @@
 <template>
-<div class="message">
-    <span>
-      <div class="message-notice">
-        <div class="message-notice-content">
-          <div class="message-custom-content" :class="{'message-success': success, 'message-error': error, 'message-warning': warning, 'message-info': info, 'message-loading': loading}">
-            <i class="icon" :class="{'icon-success': success, 'icon-error': error, 'icon-warning': warning, 'icon-info': info, 'icon-loading': loading}"></i>
-            <span>{{ content }}</span>
+<transition name="fade">
+  <div class="message" v-show="show">
+      <span>
+        <div class="message-notice">
+          <div class="message-notice-content">
+            <div class="message-custom-content" :class="{'message-success': success, 'message-error': error, 'message-warning': warning, 'message-info': info, 'message-loading': loading}">
+              <i class="icon" :class="{'icon-success': success, 'icon-error': error, 'icon-warning': warning, 'icon-info': info, 'icon-loading': loading}"></i>
+              <span>{{ content }}</span>
+            </div>
           </div>
         </div>
-      </div>
-    </span>
-</div>
+      </span>
+  </div>
+</transition>
 </template>
 <style>
 .message{
@@ -77,7 +79,7 @@
 <script>
 export default {
   name: 'message',
-  props: ['type', 'content', 'duration'],
+  props: ['type', 'content', 'duration', 'show'],
   watch: {
     type(val) {
       this.success = (val == 'success') ? true : false;
@@ -89,7 +91,6 @@ export default {
   },
   data() {
     return {
-      // show: false,
       timeoutId: null,
       success: false,
       error: false,

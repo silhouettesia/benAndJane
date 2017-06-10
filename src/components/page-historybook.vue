@@ -1,14 +1,14 @@
 <template>
 <div>
-  <div class="carousel">
+  <div class="carousel" @mouseover="stopChange" @mouseout="autoChange">
     <div class="slider-list">
-      <div v-for="item in list" class="slider-item" :class="item.show?'show':'hidden'">
-        <img :src="basicURL+item.img">
+      <div v-for="(item,idx) in list" class="slider-item" :class="idx==activeIdx?'show':'hidden'">
+        <img :src="basicURL+item">
       </div>
     </div>
     <ul class="slider-idx">
       <li v-for="(item,idx) in list" @click="activeChange(idx)">
-        <button :class="item.show?'active':''">{{idx}}</button>
+        <button :class="idx==activeIdx?'active':''">{{idx}}</button>
       </li>
     </ul>
   </div>
@@ -32,6 +32,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   transition: all .3s;
 }
 .slider-item.show {
@@ -91,30 +92,38 @@ export default {
     getHitorybookList(year) {
       axios.get('/getData?data=historybookList&year='+year)
         .then((res)=>{
-          this.list.push({'img': res.data[0], 'show': true});
-          for (let i = 1, len = res.data.length; i < len; i++) {
-            this.list.push({'img': res.data[idx], 'show': false})
+          if (res.data.length) {
+            this.list = res.data;
+            this.autoChange();
           }
         })
         .catch((err)=>{
           console.log(err);
           this.$emit('messageEvent', 'error', '服务器错误: '+err);
         });
-      this.list=[{'img':'1.JPG','show':true},{'img':'2.JPG','show':false},{'img':'3.JPG','show':false},{'img':'4.bmp','show':false}];
+      // this.list=[{'img':'1.JPG','show':true},{'img':'2.JPG','show':false},{'img':'3.JPG','show':false},{'img':'4.bmp','show':false}];
+      // this.autoChange();
     },
     activeChange(id) {
-      this.list.forEach((item,idx,arr)=>{
-        if (idx == id) {
-          item.show = true;
-        } else {
-          item.show = false;
-        }
-      })
+      // console.log('activechange',id,this.activeIdx);
+      this.activeIdx = id;
     },
+    autoChange() {
+      this.intervalId = setInterval(()=>{
+        this.activeChange((this.activeIdx + 1) % this.list.length)
+      },5000);
+      console.log('setInterval',this.intervalId);
+    },
+    stopChange() {
+      clearInterval(this.intervalId);
+      console.log('clearInterval',this.intervalId);
+    }
   },
   watch: {
     $route(val) {
       this.getHitorybookList(val.params['year']);
+      this.stopChange();
+      this.list = [];
     }
   },
   computed: {
@@ -127,6 +136,8 @@ export default {
       // basicURL: '',
       // year: '',
       list: [],
+      activeIdx: 0,
+      intervalId: null,
     }
   },
   beforeMount() {

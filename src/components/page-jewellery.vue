@@ -18,6 +18,7 @@
 <style>
 .product-list {
   overflow: auto;
+  height: 100%;
 }
 .product-list li{
     float: left;
@@ -38,6 +39,8 @@
   margin: auto;
   top: 0;bottom: 0;
   left: 0;right: 0;
+  width: 100%;
+  height: 100%;
 }
 .product-detail {
 	margin: 10px 0 40px;
@@ -113,24 +116,24 @@ export default {
       page: 0,
       limit: 30,
       productList: [
-        {
-          "id": 1,
-          "name": {"zh":"zh","en":"en"},
-          "price": "1",
-          "img": ['necklace.jpg','necklace1.jpg']
-        },
-        {
-          "id": 2,
-          "name": {"zh":"zh","en":"en"},
-          "price": "1",
-          "img": ['necklace3.jpg']
-        },
-        {
-          "id": 3,
-          "name": {"zh":"zh","en":"en"},
-          "price": "1",
-          "img": ['necklace4.jpg']
-        },
+      //   {
+      //     "id": 1,
+      //     "name": {"zh":"zh","en":"en"},
+      //     "price": "1",
+      //     "img": ['necklace.jpg','necklace1.jpg']
+      //   },
+      //   {
+      //     "id": 2,
+      //     "name": {"zh":"zh","en":"en"},
+      //     "price": "1",
+      //     "img": ['necklace3.jpg']
+      //   },
+      //   {
+      //     "id": 3,
+      //     "name": {"zh":"zh","en":"en"},
+      //     "price": "1",
+      //     "img": ['necklace4.jpg']
+      //   },
       ]
     }
   }
